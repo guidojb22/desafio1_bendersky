@@ -1,0 +1,16 @@
+{
+  "name": "desafio-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "productManager.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon ./src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

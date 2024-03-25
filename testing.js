@@ -1,4 +1,5 @@
-const ProductManager = require("./productManager");
+// const ProductManager = require("./productManager");
+import ProductManager from "./productManager.js";
 
 const producto = new ProductManager();
 
