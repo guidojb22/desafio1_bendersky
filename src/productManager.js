@@ -7,7 +7,7 @@ class ProductManager {
     static idProducto = 0;
 
     constructor(){
-        this.#path = './data/productos.json';
+        this.#path = './src/data/productos.json';
         this.#products = this.#leerProductosInFile();
     }
 
@@ -64,12 +64,16 @@ class ProductManager {
         return `Producto agregado exitosamente`;
     }
 
-    getProducts(){
+    getProducts(limit = 0){
+        limit = Number(limit);
+        if(limit > 0)
+            return this.#products.slice(0, limit);
         return this.#products;
     }
 
     getProductById(id){
-        const producto = this.#products.find(p => p.id == id);
+        id = Number(id);
+        const producto = this.#products.find(p => p.id === id);
         if(producto)
             return producto;
         else
@@ -104,5 +108,4 @@ class ProductManager {
 } 
 
 // module.exports = ProductManager
-
 export default ProductManager;
