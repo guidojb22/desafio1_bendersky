@@ -1,20 +1,20 @@
 import express from "express";
-import ProductManager from "./productManager.js";
+import productsRouter from "./routes/productsRouter.js"
+import cartsRouter from "./routes/cartsRouter.js"
 
 const app = express();
 const PORT = 8080;
 
-const p = new ProductManager();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));   
 
-app.get('/products',(req,res)=>{
-    const {limit} = req.query;
-    return res.json({ producto: p.getProducts(limit) })
+app.use("/api/products", productsRouter)
+app.use("/api/carts", cartsRouter)
+
+app.get('/',(req,res)=>{
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(200).send('Preentrega 1 - E-commerce Guido Bendersky');
 });
-
-app.get('/products/:pid',(req,res)=>{
-    const {pid} = req.params;
-    return res.json({producto: p.getProductById(Number(pid))});
-})
 
 app.listen(PORT, ()=>{
     console.log(`Corriendo aplicación en el puerto ${PORT}`);
