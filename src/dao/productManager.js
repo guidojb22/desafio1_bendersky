@@ -36,7 +36,7 @@ class ProductManager {
         }
     }
 
-addProduct(title, description, code, price, stock, status = true, category, thumbnails = []){
+addProduct({title, description, code, price, stock, status = true, category, thumbnails = []}){
 
         if(!title || !description || !code || !price || !status || !stock || !category)
             return `Todos los parametros son requeridos [title,description,code,price,stock,category]` 
