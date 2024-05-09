@@ -1,0 +1,63 @@
+<div>
+    <h2>Lista de productos:</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Código</th>
+                <th>Stock</th>
+                <th>Categoria</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Agregar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each result.payload}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+                <td>
+                    {{#if this.status}}
+                    Activo
+                    {{else}}
+                    Desactivado
+                    {{/if}}
+                </td>
+                <td>{{this.thumbnails}}</td>
+                <td>
+                    <button class="cart-button" onclick="addToCart('{{this._id}}')">
+                        <i>Agregar al carrito</i>
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span>Limite por pagina: {{result.limit}}</span><br>
+
+        {{!-- {{#if result.query}}
+        <span>Filtrado por: {{result.query}}</span>
+        {{/if}} --}}
+
+        {{#if result.hasPrevPage}}
+        <a href="?page={{result.prevPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}">Anterior</a>
+        {{/if}}
+
+        <span>Página {{result.page}} de {{result.totalPages}}</span>
+
+        {{#if result.hasNextPage}}
+        <a href="?page={{result.nextPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}">Siguiente  </a>
+        {{/if}}
+
+    </div>
+</div>
