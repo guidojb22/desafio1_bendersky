@@ -12,11 +12,19 @@ export const getProductsService = async ({limit = 10, page = 1, sort, query}) =>
         };
         sort = sortOrderOptions[sort] || null; 
 
-        const queryProducts = productModel.find().limit(Number(limit)).skip(skip).lean();
+        try {
+            if(query)
+                query = JSON.parse(decodeURIComponent(query))
+        } catch (error) {
+            console.log('Error al parsear: ', error)
+            query = {}
+        }
+
+        const queryProducts = productModel.find(query).limit(Number(limit)).skip(skip).lean();
         if(sort !== null)
             queryProducts.sort({price:sort});
 
-        const [productos, totalDocs] = await Promise.all([queryProducts, productModel.countDocuments()]);
+        const [productos, totalDocs] = await Promise.all([queryProducts, productModel.countDocuments(query)]);
         
         const totalPages = Math.ceil(totalDocs/limit);
         const hasNextPage = page < totalPages;

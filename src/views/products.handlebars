@@ -61,3 +61,23 @@
 
     </div>
 </div>
+
+
+<script>
+    function addToCart(productId) {
+        const idCart = '663be7cb5f167dee42ab3f07';
+        fetch(`/api/carts/${idCart}/products/${productId}`, {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            console.log(data);
+        })
+        .catch(error=>{
+            console.log('Error: ', error)
+        });
+    }
+</script>
