@@ -53,11 +53,6 @@ router.post('/login',async(req,res)=>{
         return res.status(400).json({error:`Credenciales invalidas}`})
     }
 
-    if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-        // Establecer el rol de administrador en la sesión del usuario
-        usuario.rol = 'admin';
-    }
-
     usuario={...usuario}
     delete usuario.password
     req.session.usuario=usuario
