@@ -1,9 +1,11 @@
 import express from "express";
 import {Server} from 'socket.io';
 import {engine} from 'express-handlebars'
+import sessions from "express-session";
 
 import productsRouter from "./routes/productsRouter.js"
 import cartsRouter from "./routes/cartsRouter.js"
+import {router as sessionsRouter} from "./routes/sessionsRouter.js";
 import views from './routes/views.js';
 import __dirname from "./utils.js";
 import { dbConnection } from './database/config.js';
@@ -17,6 +19,10 @@ const PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));   
 app.use(express.static(__dirname + '/public'));
+app.use(sessions({
+    secret: "CoderCoder123",
+    resave: true, saveUninitialized: true
+}));
 
 app.engine('handlebars', engine());
 app.set('views', __dirname + '/views');
@@ -25,6 +31,13 @@ app.set('view engine', 'handlebars');
 app.use("/", views);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/sessions", sessionsRouter)
+
+// app.get('/login', (req,res)=>{
+//     let {usuario, password} = req.query
+//     if(!usuario || !password)
+//     res.setHeader
+// })
 
 await dbConnection();
 

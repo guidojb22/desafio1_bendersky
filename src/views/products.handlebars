@@ -1,5 +1,7 @@
 <div>
-    <h2>Lista de productos:</h2>
+    <h2>Bienvenido <span style="color: rgb(99, 99, 255);">{{usuario.nombre}} <br>Email: {{usuario.email}}   {{#if isAdmin}}<p>Sos administrador</p>{{/if}} </span><button onclick="logout()">Cerrar Sesión</button></h2>
+    
+    <h3>Lista de productos:</h3>
 
     <table>
         <thead>
@@ -58,7 +60,6 @@
         {{#if result.hasNextPage}}
         <a href="?page={{result.nextPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}">Siguiente  </a>
         {{/if}}
-
     </div>
 </div>
 
@@ -79,5 +80,24 @@
         .catch(error=>{
             console.log('Error: ', error)
         });
+    }
+</script>
+
+<script>
+    function logout() {
+        fetch('/api/sessions/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                console.log('Error al cerrar sesión');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 </script>
