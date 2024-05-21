@@ -2,6 +2,8 @@ import express from "express";
 import {Server} from 'socket.io';
 import {engine} from 'express-handlebars'
 import sessions from "express-session";
+import passport from "passport";
+import { initPassport } from "./config/passport.config.js";
 
 import productsRouter from "./routes/productsRouter.js"
 import cartsRouter from "./routes/cartsRouter.js"
@@ -24,6 +26,13 @@ app.use(sessions({
     resave: true, saveUninitialized: true
 }));
 
+//paso 2
+initPassport()
+app.use(passport.initialize());
+app.use(passport.session()); //solo si uso sessions
+
+app.use("/api/session", sessionsRouter)
+
 app.engine('handlebars', engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
@@ -33,11 +42,6 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter)
 
-// app.get('/login', (req,res)=>{
-//     let {usuario, password} = req.query
-//     if(!usuario || !password)
-//     res.setHeader
-// })
 
 await dbConnection();
 
