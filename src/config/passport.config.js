@@ -3,6 +3,8 @@ import local from "passport-local";
 import github from "passport-github2";
 import { UsuariosManagerMongo } from "../dao/usuariosManagerMONGO.js";
 import { generaHash, validaPassword } from "../utils.js";
+import { createCartService } from "../services/carts.js";
+
 
 const usuariosManager=new UsuariosManagerMongo();
 
@@ -25,6 +27,11 @@ export const initPassport=()=>{
                         // return res.status(400).json({error:'Complete nombre, email y password'})
                         return done(null, false);
                     }
+
+                    let {apellido}=req.body
+                    if(!apellido){
+                        return done(null, false);
+                    }
                 
                     let existe=await usuariosManager.getBy({email: username});
                     if(existe){
@@ -32,10 +39,17 @@ export const initPassport=()=>{
                         // return res.status(400).json({error:`Ya existe ${email}`})
                         return done(null, false);
                     }
+                    
+                    let {edad}=req.body
+                    if(!edad){
+                        return done(null, false);
+                    }
                 
                     password=generaHash(password)
+
+                    const nuevoCarrito = await createCartService();
                 
-                        let nuevoUsuario=await usuariosManager.create({nombre, email:username, password}); 
+                        let nuevoUsuario=await usuariosManager.create({nombre, apellido, email:username, edad, password, carrito: nuevoCarrito._id}); 
                         return done(null, nuevoUsuario);
                         // res.status(200).json({
                         //     msg: 'Registro correcto', nuevoUsuario
@@ -95,9 +109,11 @@ export const initPassport=()=>{
                     }
                     let usuario = await usuariosManager.getBy({email})
                     if(!usuario){
+                        const nuevoCarrito = await createCartService();
+
                         usuario=await usuariosManager.create({
-                            nombre, email, profile
-                        })
+                            nombre, email, profile, carrito: nuevoCarrito._id
+                        });
                     }
 
                     return done(null, usuario)

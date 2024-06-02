@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { UsuariosManagerMongo } from '../dao/usuariosManagerMONGO.js';
-import { generaHash, validaPassword } from '../utils.js';
+// import { generaHash, validaPassword } from '../utils.js';
 import passport from 'passport';
 
 export const router=Router();
@@ -20,22 +20,9 @@ router.get("/error", (req,res)=>{
 //paso3
 router.post('/registro', passport.authenticate("registro", {failureRedirect:"/api/sessions/error"}), async(req,res)=>{
     res.redirect('/login');
-
 });
 
 router.post('/login',passport.authenticate("login", {failureRedirect:"/api/sessions/error"}) ,async(req,res)=>{
-    let {web}=req.body;
-
-    // if(!email || !password){
-    //     // res.setHeader('Content.Type','application/json')
-    //     // return res.status(400).json({error:'Complete email y password'})
-    //     if(web){
-    //         return res.redirect(`/login?error=Credenciales invalidas`)
-    //     }else{
-    //         res.setHeader('Content.Type','application/json')
-    //         return res.status(400).json({error:`Credenciales invalidas`})
-    //     }
-    // }
 
     let usuario={...req.user}
     delete usuario.password
