@@ -13,16 +13,17 @@ import __dirname from "./utils.js";
 import { dbConnection } from './database/config.js';
 import { messageModel } from "./dao/models/messages.js";
 import { addProductService, getProductsService } from "./services/products.js";
+import { config } from "./config/config.js";
 
 const app = express();
-const PORT = 8080;
+const PORT = config.PORT;
 
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));   
 app.use(express.static(__dirname + '/public'));
 app.use(sessions({
-    secret: "CoderCoder123",
+    secret: config.SECRET,
     resave: true, saveUninitialized: true
 }));
 

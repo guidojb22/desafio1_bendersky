@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { UsuariosManagerMongo } from '../dao/usuariosManagerMONGO.js';
-// import { generaHash, validaPassword } from '../utils.js';
 import passport from 'passport';
 
 export const router=Router();
@@ -17,7 +16,6 @@ router.get("/error", (req,res)=>{
     )
 });
 
-//paso3
 router.post('/registro', passport.authenticate("registro", {failureRedirect:"/api/sessions/error"}), async(req,res)=>{
     res.redirect('/login');
 });
@@ -29,7 +27,6 @@ router.post('/login',passport.authenticate("login", {failureRedirect:"/api/sessi
     req.session.usuario=usuario
     
     res.setHeader('Content.Type','application/json');
-    // res.status(200).json({payload:'Login correcto', usuario});
     res.redirect('/products');
 });
 
@@ -41,7 +38,6 @@ router.get("/callbackGitHub", passport.authenticate("github", {failureRedirect:"
     req.session.usuario = req.user
     
     res.setHeader('Content.Type','application/json');
-    // res.status(200).json({payload:req.user});
     res.redirect('/products');
 });
 
@@ -60,6 +56,5 @@ router.get('/logout',(req,res)=>{
     })
 
     res.setHeader('Content.Type','application/json');
-    // res.status(200).json({payload:'Logout exitoso'});
     res.redirect('/login');
 });
