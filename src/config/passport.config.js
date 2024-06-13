@@ -9,7 +9,6 @@ import { config } from "./config.js";
 const usuariosManager=new UsuariosManagerMongo();
 
 //paso1
-
 export const initPassport=()=>{
 
     passport.use(
@@ -23,8 +22,6 @@ export const initPassport=()=>{
                 try {
                     let {nombre}=req.body
                     if(!nombre){
-                        // res.setHeader('Content.Type','application/json')
-                        // return res.status(400).json({error:'Complete nombre, email y password'})
                         return done(null, false);
                     }
 
@@ -35,8 +32,6 @@ export const initPassport=()=>{
                 
                     let existe=await usuariosManager.getBy({email: username});
                     if(existe){
-                        // res.setHeader('Content.Type','application/json')
-                        // return res.status(400).json({error:`Ya existe ${email}`})
                         return done(null, false);
                     }
                     
@@ -135,3 +130,98 @@ export const initPassport=()=>{
     })
 
 }
+
+// import passport from "passport";
+// import local from "passport-local";
+// import github from "passport-github2";
+// import { getUserByEmailService, createUserService, createUserWithGitHubService } from "../services/users.js";
+// import { generaHash, validaPassword } from "../utils.js";
+// import { createCartService } from "../services/carts.js";
+// import { config } from "./config.js";
+
+// export const initPassport = () => {
+//     passport.use(
+//         "registro",
+//         new local.Strategy(
+//             {
+//                 usernameField: "email",
+//                 passReqToCallback: true
+//             },
+//             async (req, username, password, done) => {
+//                 try {
+//                     const { nombre, apellido, email, edad } = req.body;
+//                     if (!nombre || !apellido || !email || !edad) {
+//                         return done(null, false);
+//                     }
+
+//                     const existingUser = await getUserByEmailService(email);
+//                     if (existingUser) {
+//                         return done(null, false);
+//                     }
+
+//                     const nuevoCarrito = await createCartService();
+//                     const nuevoUsuario = await createUserService({
+//                         nombre, apellido, email, edad, password, carrito: nuevoCarrito._id
+//                     });
+
+//                     return done(null, nuevoUsuario);
+//                 } catch (error) {
+//                     return done(error);
+//                 }
+//             }
+//         )
+//     );
+
+//     passport.use(
+//         "login",
+//         new local.Strategy(
+//             {
+//                 usernameField: "email",
+//             },
+//             async (username, password, done) => {
+//                 try {
+//                     const usuario = await getUserByEmailService(username);
+//                     if (!usuario || !validaPassword(password, usuario.password)) {
+//                         return done(null, false);
+//                     }
+
+//                     return done(null, usuario);
+//                 } catch (error) {
+//                     return done(error);
+//                 }
+//             }
+//         )
+//     );
+
+//     passport.use(
+//         "github",
+//         new github.Strategy(
+//             {
+//                 clientID: config.CLIENT_ID_GITHUB,
+//                 clientSecret: "d4eb37835fd3f49237f94111674661c9c8d6cb50",
+//                 callbackURL: "https://localhost:8080/api/sessions/callbackGitHub"
+//             },
+//             async (tokenAcceso, tokenRefresh, profile, done) => {
+//                 try {
+//                     const usuario = await createUserWithGitHubService(profile);
+//                     return done(null, usuario);
+//                 } catch (error) {
+//                     return done(error);
+//                 }
+//             }
+//         )
+//     );
+
+//     passport.serializeUser((usuario, done) => {
+//         return done(null, usuario._id);
+//     });
+
+//     passport.deserializeUser(async (id, done) => {
+//         try {
+//             const usuario = await getUserByEmailService(id);
+//             return done(null, usuario);
+//         } catch (error) {
+//             return done(error);
+//         }
+//     });
+// };

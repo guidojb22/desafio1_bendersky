@@ -18,7 +18,6 @@ import { config } from "./config/config.js";
 const app = express();
 const PORT = config.PORT;
 
-
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));   
 app.use(express.static(__dirname + '/public'));
