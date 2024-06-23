@@ -24,7 +24,8 @@ router.post('/login',passport.authenticate("login", {failureRedirect:"/api/sessi
 
     let usuario={...req.user}
     delete usuario.password
-    req.session.usuario=usuario
+    req.session.usuario=usuario;
+    req.session.carrito = usuario.carrito;
     
     res.setHeader('Content.Type','application/json');
     res.redirect('/products');
@@ -35,7 +36,8 @@ router.get("/github", passport.authenticate("github", {}),(req,res)=>{
 });
 
 router.get("/callbackGitHub", passport.authenticate("github", {failureRedirect:"/api/sessions/error"}),(req,res)=>{
-    req.session.usuario = req.user
+    req.session.usuario = req.user;
+    req.session.carrito = usuario.carrito;
     
     res.setHeader('Content.Type','application/json');
     res.redirect('/products');
@@ -58,39 +60,3 @@ router.get('/logout',(req,res)=>{
     res.setHeader('Content.Type','application/json');
     res.redirect('/login');
 });
-
-// import { Router } from 'express';
-// import passport from 'passport';
-// import { registerUserController, loginUserController } from '../controllers/users.js';
-
-// export const router = Router();
-
-// router.get("/error", (req, res) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     return res.status(500).json({
-//         error: 'Error inesperado en el servidor',
-//         detalle: 'Fallo al autenticar'
-//     });
-// });
-// router.post('/registro', passport.authenticate("registro", { failureRedirect: "/api/sessions/error" }), registerUserController);
-// router.post('/login', passport.authenticate("login", { failureRedirect: "/api/sessions/error" }), loginUserController);
-// router.get("/github", passport.authenticate("github", {}));
-// router.get("/callbackGitHub", passport.authenticate("github", { failureRedirect: "/api/sessions/error" }), (req, res) => {
-//     req.session.usuario = req.user;
-//     res.setHeader('Content-Type', 'application/json');
-//     res.redirect('/products');
-// });
-// router.get('/logout', (req, res) => {
-//     req.session.destroy(error => {
-//         if (error) {
-//             console.log(error);
-//             res.setHeader('Content-Type', 'application/json');
-//             return res.status(500).json({
-//                 error: 'Error inesperado en el servidor',
-//                 detalle: `${error.message}`
-//             });
-//         }
-//         res.setHeader('Content-Type', 'application/json');
-//         res.redirect('/login');
-//     });
-// });

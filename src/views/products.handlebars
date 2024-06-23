@@ -66,7 +66,7 @@
 
 <script>
     function addToCart(productId) {
-        const idCart = '663be7cb5f167dee42ab3f07';
+        const idCart = '{{usuario.carrito}}';
         fetch(`/api/carts/${idCart}/products/${productId}`, {
             method: 'POST',
             headers:{

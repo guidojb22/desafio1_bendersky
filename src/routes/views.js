@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { auth } from '../middleware/auth.js'
+import { auth, isAdmin, isUser } from '../middleware/auth.js';
 import { getProductsService } from '../services/products.js';
-import { getCartByIdService } from '../services/carts.js'
+import { getCartByIdService } from '../services/carts.js';
 
 const router=Router();
 
@@ -20,18 +20,18 @@ router.get('/realtimeproducts', (req,res)=>{
     return res.render('realTimeProducts')
 });
 
-router.get('/chat', (req,res)=>{
+router.get('/chat', auth, isUser,(req,res)=>{
     return res.render('chat')
 });
 
-router.get('/products', auth, async(req,res)=>{
+router.get('/products', auth, isUser, async(req,res)=>{
     const result = await getProductsService(req.query);
     const isAdmin = req.session.usuario && req.session.usuario.rol === 'admin';
     return res.render('products', { title: 'productos', result, usuario: req.session.usuario, isAdmin });
 });
 
 
-router.get('/cart/:cid', async(req,res)=>{
+router.get('/cart/:cid', auth, async(req,res)=>{
     const {cid} = req.params;
     const carrito = await getCartByIdService(cid);
     return res.render('cart',{title:'carrito', carrito});
