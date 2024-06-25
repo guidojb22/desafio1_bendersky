@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { auth, isAdmin, isUser } from '../middleware/auth.js';
 import { getProductsService } from '../services/products.js';
 import { getCartByIdService } from '../services/carts.js';
+import { getCartTotal } from '../services/carts.js';
 
 const router=Router();
 
@@ -34,7 +35,12 @@ router.get('/products', auth, isUser, async(req,res)=>{
 router.get('/cart/:cid', auth, async(req,res)=>{
     const {cid} = req.params;
     const carrito = await getCartByIdService(cid);
-    return res.render('cart',{title:'carrito', carrito});
+    const total = getCartTotal(carrito);
+    return res.render('cart',{title:'carrito', carrito, total});
+});
+
+router.get('/cart/:cid/purchase', auth, async(req,res)=>{
+    res.status(200).render('purchase')
 });
 
 router.get('/registro',(req,res)=>{

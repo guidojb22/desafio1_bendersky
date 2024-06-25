@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { UsuariosManagerMongo } from '../dao/usuariosManagerMONGO.js';
 import passport from 'passport';
+import UserGithubDTO from '../dao/DTO/userGitHubDTO.js';
 
 export const router=Router();
 
@@ -36,8 +37,8 @@ router.get("/github", passport.authenticate("github", {}),(req,res)=>{
 });
 
 router.get("/callbackGitHub", passport.authenticate("github", {failureRedirect:"/api/sessions/error"}),(req,res)=>{
-    req.session.usuario = req.user;
-    req.session.carrito = usuario.carrito;
+    req.session.usuario = new UserGithubDTO(req.user);
+    req.session.carrito = req.session.usuario.cart;
     
     res.setHeader('Content.Type','application/json');
     res.redirect('/products');

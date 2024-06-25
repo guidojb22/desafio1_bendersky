@@ -1,6 +1,6 @@
 <div>
+    <h1 style="color: rgb(99, 99, 255);">ID carrito: {{carrito._id}}</h1>
     <h2>Productos del carrito:</h2>
-
     {{#each carrito.products}}
     <div>
         <h4>Nombre del producto: {{this.id.title}}</h4>
@@ -9,4 +9,6 @@
         <p>Cantidad: {{this.quantity}}</p>
     </div>
     {{/each}}
+    <h3 style="color: rgb(99, 99, 255);">Total carrito: ${{total}}</h3>
+    <button style="color: rgb(255, 255, 255); background-color: #2c0094; padding: 10px 15px; border: none; cursor: pointer; border-radius: 5px;"><a href="/cart/{{carrito._id}}/purchase" style="color: rgb(255, 255, 255);">Ir a pagar</a></button>
 </div>

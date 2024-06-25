@@ -1,13 +1,16 @@
 import { request, response } from 'express';
-import { getCartByIdService, createCartService, addProductInCartService, deleteProductsInCartService, updateProductsInCartService, deleteCartService } from '../services/carts.js'
+import { getCartByIdService, createCartService, addProductInCartService, deleteProductsInCartService, updateProductsInCartService, deleteCartService, getCartTotal } from '../services/carts.js'
 
 export const getCartById = async (req = request, res = response) => {
     try {
         const {cid} = req.params;
         const carrito = await getCartByIdService(cid);
 
-        if(carrito)
+        if(carrito){
+            const total = getCartTotal(carrito);
             return res.json({carrito});
+        }
+
 
         return res.status(404).json({msg: `El carrito con el id ${cid} no existe`})
     } catch (error) {

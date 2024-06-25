@@ -71,3 +71,7 @@ export const deleteCartService = async (cid) => {
         throw error;
     }
 }
+
+export const getCartTotal = (carrito) => {
+    return carrito.products.reduce((total, product) => total + product.id.price * product.quantity, 0);
+};

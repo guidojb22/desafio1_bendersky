@@ -1,6 +1,6 @@
 <div>
     <h2>Bienvenido <span style="color: rgb(99, 99, 255);">{{usuario.nombre}} <br>Email: {{usuario.email}}   {{#if isAdmin}}<p>Sos administrador</p>{{/if}} </span><button onclick="logout()">Cerrar Sesión</button></h2>
-    
+    <p>ID carrito: {{usuario.carrito}} <button><a href="/cart/{{usuario.carrito}}" class="cart-button" style="color: rgb(255, 255, 255);">Ver carrito</a></button></p>
     <h3>Lista de productos:</h3>
 
     <table>
@@ -46,10 +46,6 @@
 
     <div class="pagination">
         <span>Limite por pagina: {{result.limit}}</span><br>
-
-        {{!-- {{#if result.query}}
-        <span>Filtrado por: {{result.query}}</span>
-        {{/if}} --}}
 
         {{#if result.hasPrevPage}}
         <a href="?page={{result.prevPage}}&limit={{result.limit}}{{#if result.query}}&query={{result.query}}{{/if}}">Anterior</a>
