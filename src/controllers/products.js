@@ -1,5 +1,8 @@
 import { request, response } from 'express';
 import { getProductsService, getProductsByIdService, addProductService, updateProductService, deleteProductService } from '../services/products.js';
+import { CustomError } from '../utils/CustomError.js';
+import { generateProductErrorInfo } from '../utils/info.js';
+import {TIPOS_ERROR} from '../utils/EErrors.js';
 
 export const getProducts = async (req = request, res = response) => {
     try {
@@ -24,17 +27,23 @@ export const getProductsById = async (req = request, res = response) => {
     }
 }
 
-export const addProduct = async (req = request, res = response) => {
+export const addProduct = async (req = request, res = response, next) => {
     try {
-        const {title, description, code, price, stock, category} = req.body;
+        const { title, description, code, price, stock, category } = req.body;
 
-        if (!title, !description, !code, !price, !stock, !category)
-            return res.status(404).json({ msg:`Los campos: title, description, code, price, stock, category son obligatorios`});
+        if (!title || !description || !code || !price || !stock || !category) {
+            return next(CustomError.createError({
+                name: "Error creación de producto",
+                cause: generateProductErrorInfo({ title, description, code, price, stock, category }),
+                message: "Error al crear producto",
+                code: TIPOS_ERROR.TIPO_DE_DATOS
+            }));
+        }
 
-        const producto = await addProductService({...req.body})
-        return res.json({producto});
+        const producto = await addProductService({ ...req.body });
+        return res.json({ producto });
     } catch (error) {
-        return res.status(500).json({msg: 'Hablar con un administrador'});
+        return next(error);
     }
 }
 

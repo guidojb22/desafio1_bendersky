@@ -110,3 +110,26 @@ app.get('/mockingproducts', (req, res) => {
     const productos = generarProductos(100);
     res.json(productos);
 });
+
+app.use((err, req, res, next) => {
+
+    console.error('Error:', {
+        name: err.name,
+        message: err.message,
+        cause: err.cause,
+        code: err.code
+    });
+
+    if (err.code && err.cause) {
+        return res.status(err.code).json({
+            name: err.name,
+            error: err.message,
+            cause: err.cause,
+            code: err.code
+        });
+    }
+
+    return res.status(500).json({
+        error: 'Ocurrió un error inesperado'
+    });
+});

@@ -6,8 +6,10 @@ const router=Router();
 
 router.get('/', getProducts);
 router.get('/:pid', getProductsById);
-router.post('/', isAdmin, addProduct);
+router.post('/', addProduct);
 router.put('/:pid', isAdmin, updateProduct);
 router.delete('/:pid', isAdmin, deleteProduct);
 
 export default router;
+
+// No olvidar volver a poner isAdmin para el post para la entrega final
