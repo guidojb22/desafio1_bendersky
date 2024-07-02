@@ -14,6 +14,7 @@ import { dbConnection } from './database/config.js';
 import { messageModel } from "./dao/models/messages.js";
 import { addProductService, getProductsService } from "./services/products.js";
 import { config } from "./config/config.js";
+import { fakerES_MX as faker } from "@faker-js/faker"
 
 const app = express();
 const PORT = config.PORT;
@@ -75,4 +76,37 @@ io.on('connection', async (socket) => {
     });
 
     socket.broadcast.emit('nuevo_user');
+});
+
+
+const generarCliente=()=>{
+    let title = faker.commerce.productName();
+    let description = faker.commerce.productDescription();
+    let code = faker.number.octal({ min: 1000000, max: 10000000});
+    let price = faker.commerce.price();
+    let status = "true";
+    let stock = faker.number.octal({ min: 100000, max:9000000});
+    let category = faker.commerce.department();
+    return {
+        title,
+        description,
+        code,
+        price,
+        status,
+        stock,
+        category
+    }
+}
+
+const generarProductos = (cantidad) => {
+    const productos = [];
+    for (let i = 0; i < cantidad; i++) {
+        productos.push(generarCliente());
+    }
+    return productos;
+};
+
+app.get('/mockingproducts', (req, res) => {
+    const productos = generarProductos(100);
+    res.json(productos);
 });
