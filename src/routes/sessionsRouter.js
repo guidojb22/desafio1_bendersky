@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { UsuariosManagerMongo } from '../dao/usuariosManagerMONGO.js';
 import passport from 'passport';
 import UserGithubDTO from '../dao/DTO/userGitHubDTO.js';
+import { loggerDesarrollo } from '../utils.js';
 
 export const router=Router();
 
@@ -47,7 +48,7 @@ router.get("/callbackGitHub", passport.authenticate("github", {failureRedirect:"
 router.get('/logout',(req,res)=>{
     req.session.destroy(e=>{
         if(e){
-            console.log(error)
+            loggerDesarrollo.error(error)
             res.setHeader('Content.Type','application/json');
             return res.status(500).json(
                 {

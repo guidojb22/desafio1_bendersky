@@ -1,0 +1,8 @@
+info: Prueba loggerProduccion de info {"timestamp":"2024-07-10T20:11:28.496Z"}
+error: Prueba loggerProduccion de error {"timestamp":"2024-07-10T20:11:28.497Z"}
+fatal: Prueba loggerProduccion de fatal {"timestamp":"2024-07-10T20:11:28.497Z"}
+warning: Prueba loggerProduccion de warning {"timestamp":"2024-07-10T20:11:28.497Z"}
+info: Prueba loggerProduccion de info {"timestamp":"2024-07-10T20:13:22.460Z"}
+error: Prueba loggerProduccion de error {"timestamp":"2024-07-10T20:13:22.462Z"}
+fatal: Prueba loggerProduccion de fatal {"timestamp":"2024-07-10T20:13:22.462Z"}
+warning: Prueba loggerProduccion de warning {"timestamp":"2024-07-10T20:13:22.464Z"}

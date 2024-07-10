@@ -9,7 +9,8 @@ import productsRouter from "./routes/productsRouter.js"
 import cartsRouter from "./routes/cartsRouter.js"
 import {router as sessionsRouter} from "./routes/sessionsRouter.js";
 import views from './routes/views.js';
-import __dirname from "./utils.js";
+import __dirname, { loggerDesarrollo } from "./utils.js";
+import { middLogger } from "./utils.js";
 import { dbConnection } from './database/config.js';
 import { messageModel } from "./dao/models/messages.js";
 import { addProductService, getProductsService } from "./services/products.js";
@@ -42,12 +43,14 @@ app.use("/", views);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter)
+app.use(middLogger)
 
 
 await dbConnection();
 
 const expressServer = app.listen(PORT, ()=>{
-    console.log(`Corriendo aplicación en el puerto ${PORT}`);
+    // console.log(`Corriendo aplicación en el puerto ${PORT}`);
+    loggerDesarrollo.info(`Corriendo aplicación en el puerto ${PORT}`)
 });
 const io = new Server(expressServer);
 

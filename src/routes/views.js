@@ -3,6 +3,7 @@ import { auth, isAdmin, isUser } from '../middleware/auth.js';
 import { getProductsService } from '../services/products.js';
 import { getCartByIdService } from '../services/carts.js';
 import { getCartTotal } from '../services/carts.js';
+import { loggerDesarrollo, loggerProduccion } from "../utils.js";
 
 const router=Router();
 
@@ -53,6 +54,24 @@ router.get('/login',(req,res)=>{
 
 router.get('/logout',(req,res)=>{
     res.status(200).render('logout')
+});
+
+router.get('/loggerTest',(req,res)=>{
+    loggerDesarrollo.info(`Prueba loggerDesarrollo de info`)
+    loggerDesarrollo.debug(`Prueba loggerDesarrollo de debug`)
+    loggerDesarrollo.http(`Prueba loggerDesarrollo de http`)
+    loggerDesarrollo.error(`Prueba loggerDesarrollo de error`)
+    loggerDesarrollo.fatal(`Prueba loggerDesarrollo de fatal`)
+    loggerDesarrollo.warning(`Prueba loggerDesarrollo de warning`)
+
+    loggerProduccion.debug(`Prueba loggerProduccion de debug -No deberia salir-`)
+    loggerProduccion.info(`Prueba loggerProduccion de info`)
+    loggerProduccion.http(`Prueba loggerProduccion de http -No deberia salir-`)
+    loggerProduccion.error(`Prueba loggerProduccion de error`)
+    loggerProduccion.fatal(`Prueba loggerProduccion de fatal`)
+    loggerProduccion.warning(`Prueba loggerProduccion de warning`)
+
+    res.status(200).render('loggerTest')
 });
 
 export default router;
